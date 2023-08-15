@@ -15,7 +15,9 @@ user_base <- tibble::tibble(
 )
 
 ui <- fluidPage(
-
+  # add logout button UI
+  div(class = "pull-right", shinyauthr::logoutUI(id = "logout")),
+  
   # login section
   shinyauthr::loginUI(id = "login"),
   
@@ -48,6 +50,14 @@ server <- function(input, output, session) {
     req(credentials()$user_auth)
     div(
       textInput("input_id", label = "Enter Participant ID:", value = "TAY01_CMH_00000"),
+      selectInput("event", label = "Select Event:", 
+                  choices = c("01_selfreport_base_arm_1", 
+                              "01_interview_basel_arm_1",
+                              "03_selfreport_12mo_arm_1",
+                              "03_interview_12mon_arm_1",
+                              "05_selfreport_24mo_arm_1",
+                              "05_interview_24mon_arm_1"),
+                  selected = "01_selfreport_base_arm_1"),
       actionButton("run_button", "Search")
     )
   })
@@ -69,35 +79,42 @@ server <- function(input, output, session) {
   datadict <-
     httr::content(httr::POST(url, body = formData, encode = "form"), col_types = cols())
   
-  # Clean up data dictionary
-  meta_data <- datadict %>%
-    filter(
-      !field_type %in% c("descriptive", "calc"),
-      (
-        field_name == "record_id" |
-          form_name %in% instruments_to_check
-      ),!field_name %in% fields_to_exclude,!str_ends(field_name, "notes1|notes2|_redcap_id|_dode")
-    )
-  
-  meta_data_v2 <- meta_data %>%
-    filter(!field_label %in% c("Was this form completed?", "Was the form completed?"))
-  
-  # Translate REDCap branching logic into R expression
-  logic <- parseBranchingLogic(meta_data$branching_logic)
-  names(logic) <- meta_data$field_name
-  
-  logic_v2 <- parseBranchingLogic(meta_data_v2$branching_logic)
-  names(logic_v2) <- meta_data_v2$field_name
-  
-  # Create the forms[i] list
-  forms_list <-
-    as.list(setNames(instruments_to_check, paste0(
-      "forms[", seq_along(instruments_to_check) - 1, "]"
-    )))
-  
   filtered_data <- eventReactive(input$run_button, {
     req(credentials()$user_auth)
     req(input$input_id)
+    req(input$event)
+    
+    event <- input$event
+    instruments <- getInstrumentInfo(event)
+    instruments_to_check <- instruments$instruments_to_check
+    fields_to_exclude <- instruments$fields_to_exclude
+    
+    # Clean up data dictionary
+    exclude_pattern = "notes1|notes2|_redcap_id|_redcap_id_fu|_dode|_dode_fu"
+    meta_data <- datadict %>%
+      filter(
+        !field_type %in% c("descriptive", "calc"),
+        (
+          field_name == "record_id" |
+            form_name %in% instruments_to_check
+        ),!field_name %in% fields_to_exclude, !str_ends(field_name, exclude_pattern)
+      )
+    
+    meta_data_v2 <- meta_data %>%
+      filter(!field_label %in% c("Was this form completed?", "Was the form completed?"))
+    
+    # Translate REDCap branching logic into R expression
+    logic <- parseBranchingLogic(meta_data$branching_logic)
+    names(logic) <- meta_data$field_name
+    
+    logic_v2 <- parseBranchingLogic(meta_data_v2$branching_logic)
+    names(logic_v2) <- meta_data_v2$field_name
+    
+    # Create the forms[i] list
+    forms_list <-
+      as.list(setNames(instruments_to_check, paste0(
+        "forms[", seq_along(instruments_to_check) - 1, "]"
+      )))
     
     # Create the list of data export parameters
     export_pars <- list(
