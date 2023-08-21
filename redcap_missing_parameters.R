@@ -73,6 +73,63 @@ getInstrumentInfo <- function(event) {
       "nssibase_other2_fu"
     )
     
+  } else if (event == "02_selfreport_6mon_arm_1") {
+    instruments_to_check <- c(
+      # "health_and_social_service_utilization_6_month",
+      # "medication_list",
+      # "international_physical_activity_questionnaire",
+      "pain_questionnaire",
+      "pittsburgh_sleep_quality_index_psqi",
+      "ohio_state_university_traumatic_brain_injury_ident",
+      "prosocial_scale_from_the_strengths_and_difficultie",
+      "metacognition_questionnaire_mcq30",
+      "personality_inventory_for_dsm5_faceted_brief_form",
+      "life_events_checklist",
+      "adverse_life_events_scale",
+      "connor_davidson_resilience_scale_2_item_cdrisc2",
+      "parenting_monitoring_scale",
+      "gender_identity_questionnaire_for_adolescents_and",
+      "gender_identity_questionnaire_for_adolescents_4fa5",
+      "puberty_development_scale_for_girls",
+      "puberty_development_scale_for_boys",
+      "personal_attributes_questionnaire_paq",
+      "vancouver_index_of_acculturation_via",
+      "multigroup_ethnic_identity_measure_revised_meimr",
+      "the_mexican_american_cultural_values_scale_macvs",
+      "phenx_acculturation_survey",
+      "neighborhood_safetycrime_survey",
+      "school_risk_and_protective_factors_srpf",
+      "everyday_discrimination_scale",
+      "adolescent_health_history",
+      "conflict_behaviour_questionnaire"
+    )
+    
+    fields_to_exclude <- c(
+      "ipaq_q1a_other",
+      "ohio_tbi_q6_1",
+      "ohio_tbi_q6_2",
+      "ohio_tbi_q6_3",
+      "ohio_tbi_q6_4", 
+      "ohio_tbi_q6_5",
+      "ohio_tbi_q8_2",
+      "ohio_tbi_q8_3",
+      "psqi_005j_oth",
+      "ahh_q2b_oth1", 
+      "ahh_q2b_oth2", 
+      "ahh_q2b_oth3",
+      "ahh_q2b_oth4"
+    )
+    
+  }  else if (event == "02_interview_6mont_arm_1") {
+    instruments_to_check <- c(
+      "height_weight_bmi_and_waist_circumference",
+      "attachment_script_assessment_adolescent_version"
+    )
+    
+    fields_to_exclude <- c(
+      "nssibase_other2_fu"
+    )
+    
   } else if (event %in% c("03_selfreport_12mo_arm_1",
                           "05_selfreport_24mo_arm_1")) {
     instruments_to_check <- c(
@@ -137,7 +194,28 @@ getInstrumentInfo <- function(event) {
       "nssibase_other1_fu",
       "nssibase_other2_fu"
     )
-  }
+    
+  }  else if (event == "04_selfreport_18mo_arm_1") {
+    instruments_to_check <- c(
+      "health_and_social_service_utilization_6_month",
+      "personality_inventory_for_dsm5_faceted_brief_form"
+    )
+    
+    fields_to_exclude <- c(
+      "nssibase_indirect"
+    )
+    
+  }  else if (event == "04_interview_18mon_arm_1") {
+    instruments_to_check <- c(
+      "height_weight_bmi_and_waist_circumference"
+    )
+    
+    fields_to_exclude <- c(
+      "nssibase_other2_fu"
+    )
+    
+  } 
+  
   
   return(
     list(

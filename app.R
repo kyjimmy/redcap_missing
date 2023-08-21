@@ -9,7 +9,7 @@ library(tidyverse)
 # dataframe that holds usernames, passwords and other user data
 user_base <- tibble::tibble(
   user = c("taycohort"),
-  password = sapply(c("1"), sodium::password_store),
+  password = sapply(c("camh"), sodium::password_store),
   permissions = c("admin"),
   name = c("TAYCohort")
 )
