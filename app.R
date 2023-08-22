@@ -6,10 +6,14 @@ library(dplyr)
 library(rjson)
 library(tidyverse)
 
+# Load App Credentials
+shiny_username <- fromJSON(file = "../../config/credentials.json")$shiny_username
+shiny_password <- fromJSON(file = "../../config/credentials.json")$shiny_password
+
 # dataframe that holds usernames, passwords and other user data
 user_base <- tibble::tibble(
-  user = c("taycohort"),
-  password = sapply(c("camh"), sodium::password_store),
+  user = c(shiny_username),
+  password = sapply(c(shiny_password), sodium::password_store),
   permissions = c("admin"),
   name = c("TAYCohort")
 )
@@ -53,8 +57,12 @@ server <- function(input, output, session) {
       selectInput("event", label = "Select Event:", 
                   choices = c("01_selfreport_base_arm_1", 
                               "01_interview_basel_arm_1",
+                              "02_selfreport_6mon_arm_1",
+                              "02_interview_6mont_arm_1",
                               "03_selfreport_12mo_arm_1",
                               "03_interview_12mon_arm_1",
+                              "04_selfreport_18mo_arm_1", 
+                              "04_interview_18mon_arm_1",
                               "05_selfreport_24mo_arm_1",
                               "05_interview_24mon_arm_1"),
                   selected = "01_selfreport_base_arm_1"),
@@ -66,7 +74,7 @@ server <- function(input, output, session) {
   source("redcap_missing_parameters.R")
   
   # Read REDCap token
-  token <- fromJSON(file = "../../credentials.json")$main_token
+  token <- fromJSON(file = "../../config/credentials.json")$main_token
   
   # Read REDCap metadata (data dictionary) from REDCap API
   url <- "https://edc.camhx.ca/redcap/api/"

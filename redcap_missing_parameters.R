@@ -75,9 +75,9 @@ getInstrumentInfo <- function(event) {
     
   } else if (event == "02_selfreport_6mon_arm_1") {
     instruments_to_check <- c(
-      # "health_and_social_service_utilization_6_month",
+      "health_and_social_service_utilization_6_month",
       # "medication_list",
-      # "international_physical_activity_questionnaire",
+      "international_physical_activity_questionnaire",
       "pain_questionnaire",
       "pittsburgh_sleep_quality_index_psqi",
       "ohio_state_university_traumatic_brain_injury_ident",
@@ -105,6 +105,31 @@ getInstrumentInfo <- function(event) {
     )
     
     fields_to_exclude <- c(
+      "hssu2a_psych_vs",
+      "hssu2b_psychol_vs",
+      "hssu2c_soc_vs",
+      "hssu2d_nurse_vs",
+      "hssu2e_child_vs",
+      "hssu4a_famdr_vs",
+      "hssu4b_psych_vsout",
+      "hssu_pedia_vs",
+      "hssu4g_oth1_vsout",
+      "hssu4h_oth2_vsout",
+      "hssu5_supp_vs",
+      "hssu5_dayp_vs",
+      "hssu5_oth1_vs",
+      "hssu5_oth2_vs",
+      "hssu6_phys_vs",
+      "hssu6_psych_vs",
+      "hssu6_socw_vs",
+      "hssu6_adult_vs",
+      "hssu6_family_vs",
+      "hssu6_child_vs",
+      "hssu6_police_vs",
+      "hssu6_supp_vs",
+      "hssu6_tell_vs",
+      "hssu6_oth_vs",
+      "hssu6_oth2_vs",
       "ipaq_q1a_other",
       "ohio_tbi_q6_1",
       "ohio_tbi_q6_2",
@@ -127,7 +152,7 @@ getInstrumentInfo <- function(event) {
     )
     
     fields_to_exclude <- c(
-      "nssibase_other2_fu"
+      "attach_hide_score"
     )
     
   } else if (event %in% c("03_selfreport_12mo_arm_1",
@@ -202,7 +227,31 @@ getInstrumentInfo <- function(event) {
     )
     
     fields_to_exclude <- c(
-      "nssibase_indirect"
+      "hssu2a_psych_vs",
+      "hssu2b_psychol_vs",
+      "hssu2c_soc_vs",
+      "hssu2d_nurse_vs",
+      "hssu2e_child_vs",
+      "hssu4a_famdr_vs",
+      "hssu4b_psych_vsout",
+      "hssu_pedia_vs",
+      "hssu4g_oth1_vsout",
+      "hssu4h_oth2_vsout",
+      "hssu5_supp_vs",
+      "hssu5_dayp_vs",
+      "hssu5_oth1_vs",
+      "hssu5_oth2_vs",
+      "hssu6_phys_vs",
+      "hssu6_psych_vs",
+      "hssu6_socw_vs",
+      "hssu6_adult_vs",
+      "hssu6_family_vs",
+      "hssu6_child_vs",
+      "hssu6_police_vs",
+      "hssu6_supp_vs",
+      "hssu6_tell_vs",
+      "hssu6_oth_vs",
+      "hssu6_oth2_vs"
     )
     
   }  else if (event == "04_interview_18mon_arm_1") {
@@ -211,7 +260,6 @@ getInstrumentInfo <- function(event) {
     )
     
     fields_to_exclude <- c(
-      "nssibase_other2_fu"
     )
     
   } 
